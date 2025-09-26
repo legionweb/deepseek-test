@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSeek Coder - Générateur Web</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 DeepSeek Coder</h1>
+            <p>Générateur de composants web avec IA</p>
+        </header>
+        
+        <div class="main-content">
+            <!-- Zone de chat -->
+            <div class="chat-section">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message assistant">
+                        <strong>Assistant:</strong> Salut ! Décris-moi le composant web que tu veux créer.
+                    </div>
+                </div>
+                
+                <div class="chat-input">
+                    <div class="input-group">
+                        <input type="text" id="messageInput" placeholder="Ex: Créer une carte de profil avec photo et boutons..." maxlength="500">
+                        <button id="sendButton">Envoyer</button>
+                    </div>
+                    <div class="loading" id="loadingIndicator" style="display: none;">
+                        Génération en cours...
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Zone de preview -->
+            <div class="preview-section">
+                <div class="preview-header">
+                    <h3>Aperçu</h3>
+                    <div class="preview-controls">
+                        <button id="fullscreenBtn">Plein écran</button>
+                        <button id="refreshBtn">Actualiser</button>
+                    </div>
+                </div>
+                <iframe id="previewFrame" 
+                        sandbox="allow-scripts allow-same-origin allow-forms allow-modals"
+                        referrerpolicy="no-referrer"
+                        loading="lazy">
+                </iframe>
+                <div id="previewPlaceholder" class="preview-placeholder">
+                    <p>👋 Votre composant généré apparaîtra ici</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal pour code source -->
+    <div id="codeModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Code généré</h3>
+            <div class="code-controls">
+                <button id="copyCodeBtn">📋 Copier le code</button>
+                <button id="downloadBtn">💾 Télécharger</button>
+            </div>
+            <pre><code id="codeContent"></code></pre>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
