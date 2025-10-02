@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory
 from flask_cors import CORS
 import logging
+import sys
 import os
 from model_handler import deepseek_handler
 from code_processor import CodeProcessor
@@ -15,6 +16,23 @@ CORS(app)
 # Configuration
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max
+
+# 🔹 Définir le chemin du projet de manière absolue
+PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
+PARENT_PATH = os.path.dirname(PROJECT_PATH)
+
+# 🔹 Ajouter les chemins nécessaires dans sys.path
+sys.path.insert(0, PROJECT_PATH)
+sys.path.insert(0, PARENT_PATH)
+
+# 🔹 Variables d'environnement pour la configuration
+os.environ.setdefault('FLASK_ENV', 'production')
+os.environ.setdefault('FLASK_DEBUG', 'False')
+
+# 🔹 Configuration du modèle selon les ressources serveur
+# Ajustez MODEL_SIZE selon votre serveur : 1.3b, 6.7b
+os.environ.setdefault('MODEL_SIZE', '6.7b')  # Par défaut : modèle léger
+
 
 processor = CodeProcessor()
 
@@ -43,7 +61,7 @@ def generate_code():
             return jsonify({"error": "Description vide"}), 400
         
         # Génération avec DeepSeek
-        logger.info(f"Génération pour: {description[:100]}...")
+        logger.warning(f"Génération pour: {description[:100]}...")
         result = deepseek_handler.generate_web_component(description)
         
         if "error" in result:

@@ -25,19 +25,21 @@ class DeepSeekHandler:
         if torch.cuda.is_available():
             try:
                 self.load_config["load_in_8bit"] = True
+
+                self.logger.warning("Quantization 8-bit activée")
             except:
                 pass
 
         # 🔹 Log de la configuration au démarrage
-        self.logger.info(f"🤖 Configuration DeepSeek Handler:")
-        self.logger.info(f"   - Modèle: {self.model_name}")
-        self.logger.info(f"   - Device: {self.device}")
-        self.logger.info(f"   - Quantization 8-bit: {'Activée' if self.load_config.get('load_in_8bit') else 'Désactivée'}")
+        self.logger.warning(f"🤖 Configuration DeepSeek Handler:")
+        self.logger.warning(f"   - Modèle: {self.model_name}")
+        self.logger.warning(f"   - Device: {self.device}")
+        self.logger.warning(f"   - Quantization 8-bit: {'Activée' if self.load_config.get('load_in_8bit') else 'Désactivée'}")
     
     def load_model(self):
         """Chargement paresseux du modèle"""
         if self.model is None:
-            self.logger.info(f"Chargement du modèle {self.model_name}...")
+            self.logger.warning(f"Chargement du modèle {self.model_name}...")
             
             try:
                 # Chargement du tokenizer
@@ -55,7 +57,7 @@ class DeepSeekHandler:
                 if self.device == "cuda":
                     self.model = self.model.cuda()
                 
-                self.logger.info("Modèle chargé avec succès")
+                self.logger.warning("Modèle chargé avec succès")
                 return True
                 
             except Exception as e:
@@ -150,7 +152,7 @@ Description: {description}"""
                 torch.cuda.empty_cache()
             gc.collect()
             
-            self.logger.info("Modèle déchargé")
+            self.logger.warning("Modèle déchargé")
 
 # Instance globale
 deepseek_handler = DeepSeekHandler()
