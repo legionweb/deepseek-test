@@ -5,9 +5,10 @@ import gc
 import os
 
 class DeepSeekHandler:
-    def __init__(self, model_size="6.7b"):
-        self.model_size = model_size
-        self.model_name = f"deepseek-ai/deepseek-coder-{model_size}-instruct"
+    def __init__(self, model_size=None):
+        # 🔹 Utiliser la variable d'environnement définie dans wsgi.py
+        self.model_size = model_size or os.environ.get('MODEL_SIZE', '1.3b')
+        self.model_name = f"deepseek-ai/deepseek-coder-{self.model_size}-instruct"
         self.tokenizer = None
         self.model = None
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -26,6 +27,12 @@ class DeepSeekHandler:
                 self.load_config["load_in_8bit"] = True
             except:
                 pass
+
+        # 🔹 Log de la configuration au démarrage
+        self.logger.info(f"🤖 Configuration DeepSeek Handler:")
+        self.logger.info(f"   - Modèle: {self.model_name}")
+        self.logger.info(f"   - Device: {self.device}")
+        self.logger.info(f"   - Quantization 8-bit: {'Activée' if self.load_config.get('load_in_8bit') else 'Désactivée'}")
     
     def load_model(self):
         """Chargement paresseux du modèle"""
@@ -57,7 +64,7 @@ class DeepSeekHandler:
         
         return True
     
-    def generate_web_component(self, description, max_tokens=10024):
+    def generate_web_component(self, description, max_tokens=1024):
         """Génération de composant web"""
         if not self.load_model():
             return {"error": "Impossible de charger le modèle"}
