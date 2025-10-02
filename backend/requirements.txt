@@ -1,18 +1,9 @@
 Flask==2.3.3
 Flask-CORS==4.0.0
-gunicorn==21.2.0
-transformers==4.35.2
-torch==2.1.1
-accelerate==0.24.1
-bitsandbytes==0.41.3
-sentencepiece==0.1.99
-# Utiliser une version pré-compilée de PyYAML pour éviter les erreurs Cython
-PyYAML==6.0.1
-# Spécifier protobuf compatible
-protobuf>=3.20.0,<4.0.0
-# Ajouter des dépendances manquantes
-numpy>=1.21.0,<2.0.0
-regex
-requests
-tqdm
-safetensors
+gunicorn
+transformers
+torch
+accelerate
+bitsandbytes
+sentencepiece
+protobuf
