@@ -1,9 +1,9 @@
 Flask==2.3.3
 Flask-CORS==4.0.0
-gunicorn==21.2.0
-transformers==4.35.2
-torch==2.1.1
-accelerate==0.24.1
-bitsandbytes==0.41.3
-sentencepiece==0.1.99
-protobuf==3.20.3
+gunicorn
+transformers
+torch
+accelerate
+bitsandbytes
+sentencepiece
+protobuf
